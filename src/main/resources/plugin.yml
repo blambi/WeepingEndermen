@@ -1,0 +1,9 @@
+name: Weeping Endermen
+main: com.chebab.weepingendermen.WeepingEndermen
+version: 0.0
+website: n/a
+author: blambi
+description: >
+             Makes endermen more fun, or scary.
+             Basically they are modified to behave a bit more like the weeping
+             angles from doctor who.
