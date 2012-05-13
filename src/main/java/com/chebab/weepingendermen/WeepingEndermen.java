@@ -27,6 +27,9 @@ import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 public class WeepingEndermen extends JavaPlugin implements Listener
 {
     private List<String> worlds;
@@ -64,7 +67,18 @@ public class WeepingEndermen extends JavaPlugin implements Listener
             if( worlds.indexOf( world.getName() ) != -1 && rnd.nextInt(5) == 0 ) {
                 victim = (Player)event.getEntity();
                 randomSafeTeleport( victim );
-                victim.sendMessage("*Poof*");
+
+                // Should we give the poor sod a confusion potioneffect?
+                if( this.getConfig().getBoolean( "confuse", false ) ) {
+                    PotionEffect pe = new PotionEffect( PotionEffectType.BLINDNESS, 100, 10 );
+                    victim.addPotionEffect( pe, true );
+                    PotionEffect pe2 = new PotionEffect( PotionEffectType.CONFUSION, 200, 5 );
+                    victim.addPotionEffect( pe2, true );
+                }
+
+                else {
+                    victim.sendMessage("*Poof*");
+                }
             }
         }
     }
@@ -112,8 +126,8 @@ public class WeepingEndermen extends JavaPlugin implements Listener
                         block_under = block_under.getRelative(BlockFace.DOWN);
 
                         if( block_under.getType() != Material.AIR && block_under.getType() != Material.LAVA ) {
-                            victim.sendMessage("Good we found a spot on solid " + block_under.getType() );
-                            victim.sendMessage("At x:" + proposed.getX() + " y:" + y2 + " z:" + proposed.getZ());
+                            //victim.sendMessage("Good we found a spot on solid " + block_under.getType() );
+                            //victim.sendMessage("At x:" + proposed.getX() + " y:" + y2 + " z:" + proposed.getZ());
                             proposed.subtract( (double)0.0, (double)1.0, (double)0.0 ); // So we get in the the tested region.
                             has_safespot = true;
                             break;
